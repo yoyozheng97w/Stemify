@@ -1,0 +1,29 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - demucs_models:/root/.cache/torch   # 模型快取，避免每次重下載
+      - /tmp/stem_uploads:/tmp/stem_uploads
+      - /tmp/stem_outputs:/tmp/stem_outputs
+    environment:
+      - OMP_NUM_THREADS=8     # CPU 執行緒數，依你的核心數調整
+    deploy:
+      resources:
+        limits:
+          memory: 12G         # 限制記憶體用量，留空間給系統
+    restart: unless-stopped
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  demucs_models:
