@@ -4,38 +4,68 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STEMIFY — 音軌分離器</title>
-  <link rel="stylesheet" href="style.css">
+
+  <!-- CSS：依層次分開載入 -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
 
 <header>
   <div>
-    <div class="logo">STEMIFT</div>
-    <div class="logo-sub">音軌分離器 v1.0</div>
+    <div class="logo">STEMIFY</div>
+    <div class="logo-sub">音軌分離器</div>
   </div>
   <div class="status-dot"></div>
 </header>
 
 <main>
 
-  <!-- Upload Zone -->
-  <div class="upload-zone" id="upload-zone">
-    <input type="file" id="file-input" accept="audio/*">
-    <span class="upload-icon">🎵</span>
-    <div class="upload-title">拖曳音檔到此處</div>
-    <div class="upload-sub">或點擊選擇檔案 · MP3, WAV, FLAC, AAC, OGG</div>
+  <!-- ── 輸入區塊（Tab 切換）── -->
+  <div class="input-tabs">
+    <button class="tab-btn active" data-tab="upload">📁 本地上傳</button>
+    <button class="tab-btn"        data-tab="youtube">▶ YouTube 連結</button>
   </div>
 
-  <!-- File info + waveform -->
+  <!-- 本地上傳 -->
+  <div class="tab-panel active" id="tab-upload">
+    <div class="upload-zone" id="upload-zone">
+      <input type="file" id="file-input" accept="audio/*">
+      <span class="upload-icon">🎵</span>
+      <div class="upload-title">拖曳音檔到此處</div>
+      <div class="upload-sub">或點擊選擇檔案 · MP3, WAV, FLAC, AAC, OGG</div>
+    </div>
+  </div>
+
+  <!-- YouTube 連結 -->
+  <div class="tab-panel" id="tab-youtube">
+    <div class="yt-box">
+      <div class="yt-icon">▶</div>
+      <div class="yt-input-wrap">
+        <input
+          type="text"
+          id="yt-url"
+          class="yt-input"
+          placeholder="貼上 YouTube 連結，例如 https://www.youtube.com/watch?v=..."
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <div class="yt-hint">支援一般影片連結與 youtu.be 短網址</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 音源資訊 + 波形 -->
   <div class="processing-section" id="processing-section">
 
-    <div class="section-label">音檔資訊</div>
+    <div class="section-label">音源資訊</div>
 
     <div class="file-bar">
-      <span style="font-size:18px">🎵</span>
-      <span class="file-name" id="file-name-display">—</span>
-      <span class="file-meta" id="file-meta-display">—</span>
-      <button class="reset-btn" id="reset-btn">✕ 重置</button>
+      <span class="file-bar-icon" id="file-bar-icon">🎵</span>
+      <span class="file-name"     id="file-name-display">—</span>
+      <span class="file-meta"     id="file-meta-display">—</span>
+      <button class="reset-btn"   id="reset-btn">✕ 重置</button>
     </div>
 
     <div class="waveform-container" id="waveform-container">
@@ -43,44 +73,31 @@
       <div class="playhead" id="playhead"></div>
     </div>
 
-    <!-- Split controls -->
-    <div class="split-controls">
+    <!-- 分離模式 -->
+    <div class="split-controls" id="split-controls">
       <div class="split-title">// 選擇分離模式</div>
-      <div class="model-grid">
-        <div class="model-btn active" data-model="2stem">
-          <div class="model-name">2 音軌 <span class="model-badge">快速</span></div>
-          <div class="model-desc">人聲 + 伴奏</div>
-        </div>
-        <div class="model-btn" data-model="4stem">
-          <div class="model-name">4 音軌</div>
-          <div class="model-desc">人聲 · 鼓 · 貝斯 · 其他</div>
-        </div>
-        <div class="model-btn" data-model="5stem">
-          <div class="model-name">5 音軌 <span class="model-badge">精細</span></div>
-          <div class="model-desc">人聲 · 鼓 · 貝斯 · 鋼琴 · 其他</div>
-        </div>
-      </div>
+      <div class="model-grid" id="model-grid"></div>
       <button class="split-btn" id="split-btn">▶ 開始分離</button>
     </div>
 
   </div>
 
-  <!-- Progress -->
+  <!-- 進度條 -->
   <div class="progress-bar-wrap" id="progress-wrap">
-    <div class="progress-label" id="progress-label">PROCESSING...</div>
+    <div class="progress-label" id="progress-label">PROCESSING... 0%</div>
     <div class="progress-track">
       <div class="progress-fill" id="progress-fill"></div>
     </div>
-    <div class="progress-steps" id="progress-steps">初始化音頻分析引擎...</div>
+    <div class="progress-steps" id="progress-steps">初始化...</div>
   </div>
 
-  <!-- Stems -->
+  <!-- 音軌控制 -->
   <div class="stems-section" id="stems-section">
     <div class="section-label">音軌控制</div>
     <div id="stems-container"></div>
   </div>
 
-  <!-- Download -->
+  <!-- 下載 -->
   <div class="download-section" id="download-section">
     <div class="section-label">匯出音軌</div>
     <div class="download-grid" id="download-grid"></div>
@@ -104,6 +121,8 @@
 
 <div class="notif" id="notif"></div>
 
-<script src="app.js"></script>
+<!-- JS：使用 ES Modules，瀏覽器原生支援，不需 bundler -->
+<script type="module" src="js/main.js"></script>
+
 </body>
 </html>

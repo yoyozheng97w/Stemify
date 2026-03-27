@@ -1,90 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap');
-
-:root {
-  --bg: #0a0a0f;
-  --surface: #111118;
-  --surface2: #1a1a24;
-  --border: #2a2a38;
-  --accent: #00e5ff;
-  --accent2: #ff3cac;
-  --accent3: #7b2fff;
-  --text: #e8e8f0;
-  --text-dim: #6a6a88;
-  --green: #00ff87;
-  --yellow: #ffe600;
-  --orange: #ff6b35;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Noto Sans TC', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Scanline overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,229,255,0.015) 2px, rgba(0,229,255,0.015) 4px);
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* ─── Header ─────────────────────────────────── */
-header {
-  padding: 28px 40px;
+/* ─── Input tabs ──────────────────────────────────── */
+.input-tabs {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  border-bottom: 1px solid var(--border);
-  position: relative;
+  gap: 4px;
+  margin-bottom: 12px;
 }
 
-.logo {
+.tab-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px 4px 0 0;
+  padding: 10px 20px;
   font-family: 'Space Mono', monospace;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 6px;
-  color: var(--accent);
-  text-shadow: 0 0 20px rgba(0,229,255,0.5);
-}
-
-.logo-sub {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
+  letter-spacing: 1px;
   color: var(--text-dim);
-  letter-spacing: 3px;
-  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+  border-bottom: none;
 }
 
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 8px var(--green);
-  margin-left: auto;
-  animation: pulse 2s infinite;
+.tab-btn:hover  { color: var(--text); border-color: var(--accent); }
+
+.tab-btn.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(0,229,255,0.05);
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
+.tab-panel        { display: none; }
+.tab-panel.active { display: block; }
 
-/* ─── Main layout ─────────────────────────────── */
-main {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 24px;
-}
-
-/* ─── Upload zone ─────────────────────────────── */
+/* ─── Upload zone ─────────────────────────────────── */
 .upload-zone {
   border: 1px dashed var(--border);
   border-radius: 4px;
@@ -134,32 +80,64 @@ main {
 
 #file-input { display: none; }
 
-/* ─── Processing section ──────────────────────── */
+/* ─── YouTube input box ───────────────────────────── */
+.yt-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0 4px 4px 4px;
+  padding: 28px 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.yt-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,0,0,0.15);
+  border: 1px solid rgba(255,60,60,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #ff4444;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.yt-input-wrap { flex: 1; }
+
+.yt-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+  letter-spacing: 0.5px;
+}
+
+.yt-input:focus       { border-color: var(--accent); }
+.yt-input::placeholder { color: var(--text-dim); }
+
+.yt-hint {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+
+/* ─── File info bar ───────────────────────────────── */
 .processing-section {
   display: none;
   margin-top: 32px;
 }
 
-.section-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-/* ─── File info bar ───────────────────────────── */
 .file-bar {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -170,6 +148,8 @@ main {
   gap: 16px;
   margin-bottom: 24px;
 }
+
+.file-bar-icon { font-size: 18px; }
 
 .file-name {
   font-family: 'Space Mono', monospace;
@@ -187,7 +167,26 @@ main {
   font-family: 'Space Mono', monospace;
 }
 
-/* ─── Waveform ────────────────────────────────── */
+.reset-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 14px;
+  color: var(--text-dim);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-left: auto;
+}
+
+.reset-btn:hover {
+  border-color: var(--accent2);
+  color: var(--accent2);
+}
+
+/* ─── Waveform ────────────────────────────────────── */
 .waveform-container {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -207,8 +206,7 @@ main {
 
 .playhead {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 0; bottom: 0;
   width: 1px;
   background: var(--accent);
   box-shadow: 0 0 6px var(--accent);
@@ -217,7 +215,7 @@ main {
   transition: left 0.05s linear;
 }
 
-/* ─── Split controls ──────────────────────────── */
+/* ─── Split / model controls ──────────────────────── */
 .split-controls {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -252,14 +250,9 @@ main {
   text-align: left;
 }
 
-.model-btn:hover {
-  border-color: var(--accent);
-}
-
-.model-btn.active {
-  border-color: var(--accent);
-  background: rgba(0,229,255,0.06);
-}
+.model-btn:hover           { border-color: var(--accent); }
+.model-btn.active          { border-color: var(--accent); background: rgba(0,229,255,0.06); }
+.model-btn.active .model-name { color: var(--accent); }
 
 .model-name {
   font-family: 'Space Mono', monospace;
@@ -271,12 +264,7 @@ main {
   gap: 6px;
 }
 
-.model-btn.active .model-name { color: var(--accent); }
-
-.model-desc {
-  font-size: 11px;
-  color: var(--text-dim);
-}
+.model-desc { font-size: 11px; color: var(--text-dim); }
 
 .model-badge {
   font-size: 9px;
@@ -304,19 +292,10 @@ main {
   text-transform: uppercase;
 }
 
-.split-btn:hover {
-  background: #33eeff;
-  box-shadow: 0 0 20px rgba(0,229,255,0.3);
-}
+.split-btn:hover    { background: #33eeff; box-shadow: 0 0 20px rgba(0,229,255,0.3); }
+.split-btn:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; box-shadow: none; }
 
-.split-btn:disabled {
-  background: var(--border);
-  color: var(--text-dim);
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* ─── Progress ────────────────────────────────── */
+/* ─── Progress bar ────────────────────────────────── */
 .progress-bar-wrap {
   display: none;
   margin-bottom: 24px;
@@ -357,10 +336,8 @@ main {
   font-family: 'Space Mono', monospace;
 }
 
-/* ─── Stems section ───────────────────────────── */
-.stems-section {
-  display: none;
-}
+/* ─── Stem rows ───────────────────────────────────── */
+.stems-section { display: none; }
 
 .stem-row {
   background: var(--surface);
@@ -371,10 +348,7 @@ main {
   transition: border-color 0.2s;
 }
 
-.stem-row.muted {
-  opacity: 0.45;
-  border-color: transparent;
-}
+.stem-row.muted { opacity: 0.45; border-color: transparent; }
 
 .stem-header {
   display: flex;
@@ -391,7 +365,7 @@ main {
   flex-shrink: 0;
 }
 
-.stem-info { flex: 1; }
+.stem-info  { flex: 1; }
 
 .stem-name {
   font-family: 'Space Mono', monospace;
@@ -408,19 +382,13 @@ main {
   font-family: 'Space Mono', monospace;
 }
 
-.stem-waveform-mini {
-  flex: 1;
-  height: 36px;
-  opacity: 0.7;
-}
-
 .stem-controls {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* ─── Volume slider ───────────────────────────── */
+/* ─── Volume slider ───────────────────────────────── */
 .vol-wrap {
   display: flex;
   align-items: center;
@@ -455,9 +423,9 @@ input[type=range]::-webkit-slider-thumb {
   box-shadow: 0 0 6px rgba(0,229,255,0.5);
 }
 
+/* ─── Toggle / Solo buttons ───────────────────────── */
 .toggle-btn {
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   border-radius: 4px;
   border: 1px solid var(--border);
   background: var(--surface2);
@@ -470,11 +438,10 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .toggle-btn:hover { border-color: var(--accent); }
-.toggle-btn.on { background: rgba(0,229,255,0.12); border-color: var(--accent); }
+.toggle-btn.on    { background: rgba(0,229,255,0.12); border-color: var(--accent); }
 
 .solo-btn {
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   border-radius: 4px;
   border: 1px solid var(--border);
   background: var(--surface2);
@@ -490,9 +457,9 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .solo-btn:hover { border-color: var(--yellow); }
-.solo-btn.on { background: rgba(255,230,0,0.12); border-color: var(--yellow); color: var(--yellow); }
+.solo-btn.on    { background: rgba(255,230,0,0.12); border-color: var(--yellow); color: var(--yellow); }
 
-/* ─── Master transport bar ────────────────────── */
+/* ─── Master transport bar ────────────────────────── */
 .master-bar {
   display: none;
   position: sticky;
@@ -513,8 +480,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .play-btn {
-  width: 48px;
-  height: 48px;
+  width: 48px; height: 48px;
   border-radius: 50%;
   border: 1px solid var(--accent);
   background: transparent;
@@ -541,10 +507,7 @@ input[type=range]::-webkit-slider-thumb {
   min-width: 100px;
 }
 
-.seek-bar {
-  flex: 1;
-  cursor: pointer;
-}
+.seek-bar        { flex: 1; cursor: pointer; }
 
 input[type=range].seek-bar {
   width: 100%;
@@ -570,11 +533,9 @@ input[type=range].seek-bar::-webkit-slider-thumb {
   letter-spacing: 1px;
 }
 
-input[type=range].master-slider {
-  width: 90px;
-}
+input[type=range].master-slider { width: 90px; }
 
-/* ─── Download section ────────────────────────── */
+/* ─── Download section ────────────────────────────── */
 .download-section {
   display: none;
   margin-top: 24px;
@@ -614,18 +575,10 @@ input[type=range].master-slider {
   color: var(--text-dim);
 }
 
-/* ─── Separator ───────────────────────────────── */
-.sep {
-  width: 1px;
-  height: 40px;
-  background: var(--border);
-}
-
-/* ─── Notification ────────────────────────────── */
+/* ─── Notification toast ──────────────────────────── */
 .notif {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 20px; right: 20px;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-left: 3px solid var(--accent);
@@ -641,23 +594,3 @@ input[type=range].master-slider {
 }
 
 .notif.show { transform: translateX(0); }
-
-/* ─── Reset button ────────────────────────────── */
-.reset-btn {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 6px 14px;
-  color: var(--text-dim);
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.15s;
-  margin-left: auto;
-}
-
-.reset-btn:hover {
-  border-color: var(--accent2);
-  color: var(--accent2);
-}

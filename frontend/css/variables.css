@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap');
+
+/* ─── Design Tokens ─────────────────────────────── */
+:root {
+  --bg:        #0a0a0f;
+  --surface:   #111118;
+  --surface2:  #1a1a24;
+  --border:    #2a2a38;
+  --accent:    #00e5ff;
+  --accent2:   #ff3cac;
+  --accent3:   #7b2fff;
+  --text:      #e8e8f0;
+  --text-dim:  #6a6a88;
+  --green:     #00ff87;
+  --yellow:    #ffe600;
+  --orange:    #ff6b35;
+}
+
+/* ─── Reset & Base ──────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans TC', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,229,255,0.015) 2px, rgba(0,229,255,0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
