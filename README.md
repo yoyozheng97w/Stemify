@@ -70,7 +70,7 @@
 **1. Clone the repository**
 
 ```bash
-git clone https://github.com/your-username/stemify.git
+git clone https://github.com/yoyozheng97w/stemify.git
 cd stemify
 ```
 
