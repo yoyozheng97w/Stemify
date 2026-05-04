@@ -76,11 +76,18 @@ cd stemify
 
 **2. 啟動容器**
 
+首次啟動（建置映像檔並下載 Demucs 模型，需要 **5～15 分鐘**）：
+
 ```bash
 docker compose up --build
 ```
 
-> **首次啟動**會自動下載 Python 套件、FFmpeg 及 Demucs AI 模型，需要 **5～15 分鐘**，請耐心等候。
+後續啟動（約 5 秒，所有資源皆已快取）：
+
+```bash
+docker compose up
+```
+
 > 等到終端出現 `Uvicorn running on http://0.0.0.0:8000` 即表示啟動完成。
 
 **3. 開啟瀏覽器**

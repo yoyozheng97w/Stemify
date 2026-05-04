@@ -76,12 +76,18 @@ cd stemify
 
 **2. Start the containers**
 
+First run (builds the image and downloads the Demucs model — takes **5–15 minutes**):
+
 ```bash
 docker compose up --build
 ```
 
-> **First run only:** Docker will download Python packages, FFmpeg, and the Demucs AI model automatically. This takes **5–15 minutes**. Subsequent starts are near-instant since everything is cached.
->
+Subsequent runs (~5 seconds, everything is cached):
+
+```bash
+docker compose up
+```
+
 > When you see `Uvicorn running on http://0.0.0.0:8000` in the terminal, the app is ready.
 
 **3. Open your browser**
